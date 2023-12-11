@@ -1,0 +1,72 @@
+
+    
+
+<div *ngIf="!register" class="flex flex-col justify-center items-center h-screen">
+
+    <div class="bg-white p-12  rounded shadow">
+        <h1 class="md:text-3xl text-xl font-bold mr-36 mb-8">Welcome Back to a <br>better you!</h1>
+    
+        <div class="flex flex-col justify-center items-center h-72">
+            <form [formGroup]="loginForm" (ngSubmit)="login()" class="w-full max-w-xs">
+                <label for="Email" class="text-gray-500 font-sans text-sm">Email</label>
+              <input id="email" type="email" formControlName="email" required class="w-full mb-4 h-12 rounded-md bg-transparent border-2 cursor-pointer">
+              <label for="password" class="text-gray-500 font-sans text-sm">Password</label>
+              <input type="password" formControlName="password" required class="w-full mb-4 h-12 rounded-md bg-transparent border-2 cursor-pointer">
+              <a class="text-blue-800 text-sm font-bold cursor-pointer hover:underline">forgot your password?</a>
+              <button class="font-sans bg-gray-300 h-12 rounded-xl mt-5 mb-5 w-full font-semibold hover:bg-green-500 hover:text-white" type="submit" >Sign in</button>
+            </form>
+          </div>
+          
+
+          
+          <div class="flex flex-row justify-center">
+            <hr class="solid w-24 md:w-36 mt-3"> <p class="ml-2 mr-2"> or login with </p><hr class="solid md:w-36 w-24 mt-3">
+          </div>
+       
+  <div class="flex flex-row justify-center md:ml-16 border ml-3  border-solid border-x-2 border-y-2 border-black mt-8 w-72 h-12 rounded-2xl
+ hover:bg-blue-700 hover:text-white hover:border-collapse cursor-pointer hover:border-white hover:font-semibold"
+>
+    <img  src="../../assets/google-logo-9826.png" class="w-6 h-6 mt-2" alt=""> 
+    <button  class="p-2"  (click)="signInWithGoogle()">Continue with Google</button>
+</div>
+<div class="flex flex-row mt-24 justify-center">
+    <p>Don't have an account?</p><p (click)="onRegister()" class="ml-2 text-blue-800 font-bold cursor-pointer hover:underline">Sign Up</p>
+</div>  
+</div>
+</div>
+
+<!-- REGISTER -->    
+
+<div *ngIf="register" class="flex flex-col justify-center items-center h-screen">
+    <h1 class="md:text-3xl text-3xl font-bold  mb-32 flex  w-full justify-center">Create Your Account</h1>
+    <div class="bg-white p-12 rounded shadow">
+       
+
+        <div class="flex flex-col justify-center items-center h-72">
+            <form [formGroup]="registerForm" (ngSubmit)="signUp()" class="w-full max-w-xs">
+                <label for="firstName" class="text-gray-500 font-sans text-sm">First Name</label>
+                <input id="firstName" type="text" formControlName="firstName" class="w-full mb-4 h-12 rounded-md bg-transparent border-2 cursor-pointer">
+
+                <label for="lastName" class="text-gray-500 font-sans text-sm">Last Name</label>
+                <input id="lastName" type="text" formControlName="lastName" class="w-full mb-4 h-12 rounded-md bg-transparent border-2 cursor-pointer">
+
+                <label for="registerEmail" class="text-gray-500 font-sans text-sm">Email</label>
+                <input id="registerEmail" type="email" formControlName="email" class="w-full mb-4 h-12 rounded-md bg-transparent border-2 cursor-pointer">
+
+                <label for="registerPassword" class="text-gray-500 font-sans text-sm">Password</label>
+                <input id="registerPassword" type="password" formControlName="password" class="w-full mb-4 h-12 rounded-md bg-transparent border-2 cursor-pointer">
+
+                <label for="passwordConfirm" class="text-gray-500 font-sans text-sm">Confirm Password</label>
+                <input id="passwordConfirm" type="password" formControlName="passwordConfirm" class="w-full mb-4 h-12 rounded-md bg-transparent border-2 cursor-pointer">
+
+                <button class="font-sans bg-gray-300 h-12 rounded-xl mt-5 mb-5 w-full font-semibold hover:bg-green-500 hover:text-white" type="submit">Register</button>
+            </form>
+            <div class="flex flex-row justify-center md:ml-16 border ml-3  border-solid border-x-2 border-y-2 border-black mt-8 w-72 h-12 rounded-2xl
+            hover:bg-blue-700 hover:text-white hover:border-collapse cursor-pointer hover:border-white hover:font-semibold"
+           >
+               <img  src="../../assets/google-logo-9826.png" class="w-6 h-6 mt-2" alt=""> 
+               <button  class="p-2"  (click)="signInWithGoogle()">Continue with Google</button>
+           </div>
+        </div>
+    </div>
+</div>
