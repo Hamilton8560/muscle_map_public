@@ -20,3 +20,7 @@ export const environment =
     }
 
 };
+
+
+export const stripe_key= 
+    "sk_test_51NDASeHv8mumYCroLPdMO7BWRmh4v5dFAsTlX5lnIBGY6urv7dqOTe6tKPCh8fs0T0oGQZsaegRKsRVX776RD8Qq00NdfRXVzt"

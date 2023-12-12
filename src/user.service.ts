@@ -7,7 +7,8 @@ import firebase from 'firebase/compat/app';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-
+import { UserData } from './app/login/user-data.model';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -75,7 +76,6 @@ export class UserService {
       );
   }
 
-
   // Email verification
   sendVerificationMail() {
     const user = firebase.auth().currentUser;
@@ -85,6 +85,9 @@ export class UserService {
     }
     return user.sendEmailVerification();
   }
+
+
+
 }
 
 

@@ -15,8 +15,8 @@ import { UserData  } from './user-data.model'
 })
 export class LoginComponent {
   register=false;
-  
-
+  resetPassword=false;
+  userEmail:string='';
 
   loginForm=new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -58,29 +58,34 @@ signUp() {
       return;
     } else {
       this.userService.signUp(user.email, user.password)
-        .then((result) => {
+        .then(result => {
           if (result.user) {
             const userData = {
               firstName: user.firstName,
               lastName: user.lastName,
-              email: result.user.email,
+              email: result.user.email
               // Add other user data as needed
             };
-            return this.afStore.collection('users').doc(result.user.uid).set(userData);
+            return this.afStore.collection('users').doc(result.user.uid).set(userData)
+              .then(() => {
+                // Now log the user in
+                return this.userService.signIn(user.email, user.password);
+              });
           } else {
             throw new Error('User creation failed');
           }
         })
         .then(() => {
-          console.log('Registration successful');
-          // Perform any additional actions on successful registration
+          console.log('Registration and login successful');
+          this.router.navigate(['home']); // Navigate to home after successful login
         })
         .catch(error => {
-          console.error("Registration error", error);
+          console.error("Registration or login error", error);
         });
     }
   });
 }
+
 
   login(): void {
     console.log(this.loginForm.value)
@@ -130,7 +135,11 @@ signUp() {
   onRegister(){
     this.register=!this.register;
   }
+  onForgotPassword(){
+    this.resetPassword=!this.resetPassword;
+  }
 }
+
 /*
 
 signUp() {
