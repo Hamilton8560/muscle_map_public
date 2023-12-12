@@ -1,7 +1,8 @@
 
-    
 
-<div *ngIf="!register" class="flex flex-col justify-center items-center h-screen">
+<!--Login-->
+
+<div *ngIf="!register && !resetPassword" class="flex flex-col justify-center items-center h-screen">
 
     <div class="bg-white p-12  rounded shadow">
         <h1 class="md:text-3xl text-xl font-bold mr-36 mb-8">Welcome Back to a <br>better you!</h1>
@@ -12,7 +13,7 @@
               <input id="email" type="email" formControlName="email" required class="w-full mb-4 h-12 rounded-md bg-transparent border-2 cursor-pointer">
               <label for="password" class="text-gray-500 font-sans text-sm">Password</label>
               <input type="password" formControlName="password" required class="w-full mb-4 h-12 rounded-md bg-transparent border-2 cursor-pointer">
-              <a class="text-blue-800 text-sm font-bold cursor-pointer hover:underline">forgot your password?</a>
+              <a (click)="onForgotPassword()" class="text-blue-800 text-sm font-bold cursor-pointer hover:underline">forgot your password?</a>
               <button class="font-sans bg-gray-300 h-12 rounded-xl mt-5 mb-5 w-full font-semibold hover:bg-green-500 hover:text-white" type="submit" >Sign in</button>
             </form>
           </div>
@@ -37,8 +38,8 @@
 
 <!-- REGISTER -->    
 
-<div *ngIf="register" class="flex flex-col justify-center items-center h-screen">
-    <h1 class="md:text-3xl text-3xl font-bold  mb-32 flex  w-full justify-center">Create Your Account</h1>
+<div *ngIf="register && !resetPassword" class="flex flex-col justify-center items-center h-screen">
+    <h1 class="md:text-3xl text-3xl font-bold mb-32 flex  w-full justify-center">Create Your Account</h1>
     <div class="bg-white p-12 rounded shadow">
        
 
@@ -61,12 +62,45 @@
 
                 <button class="font-sans bg-gray-300 h-12 rounded-xl mt-5 mb-5 w-full font-semibold hover:bg-green-500 hover:text-white" type="submit">Register</button>
             </form>
-            <div class="flex flex-row justify-center md:ml-16 border ml-3  border-solid border-x-2 border-y-2 border-black mt-8 w-72 h-12 rounded-2xl
+
+            <div class="flex flex-row justify-center">
+                <hr class="solid w-24 md:w-36 mt-3"> <p class="ml-2 mr-2"> or sign up </p><hr class="solid md:w-36 w-24 mt-3">
+              </div>
+
+
+            <div class="flex flex-row justify-center mr-4 border ml-3  border-solid border-x-2 border-y-2 border-black mt-8 w-72 h-12 rounded-2xl
             hover:bg-blue-700 hover:text-white hover:border-collapse cursor-pointer hover:border-white hover:font-semibold"
            >
-               <img  src="../../assets/google-logo-9826.png" class="w-6 h-6 mt-2" alt=""> 
+
+          
+               <img  src="../../assets/google-logo-9826.png" class="w-6 h-6 mt-2 " alt=""> 
                <button  class="p-2"  (click)="signInWithGoogle()">Continue with Google</button>
            </div>
+        </div>
+        
+    </div>
+    <div class="flex flex-row mt-48 justify-center">
+        <p>Already have an account?</p><p (click)="onRegister()" class="ml-2 text-blue-800 font-bold cursor-pointer hover:underline">Log in</p>
+    </div> 
+</div>
+<!-- FORGOT PASSWORD -->
+
+<div *ngIf="resetPassword" class="flex flex-col justify-center items-center h-screen">
+    <div class="bg-white p-12 rounded shadow">
+        <h1 class="md:text-3xl text-xl font-bold mb-8 flex w-full justify-start">Forgot Password?</h1>
+        <p class="mb-4">Please enter your email address linked <br> with your account</p>
+
+        <div class="flex flex-col justify-center items-center h-48">
+            <form (ngSubmit)="reset(userEmail)" class="w-full max-w-xs">
+                <label for="emailReset" class="text-gray-500 font-sans text-sm">Email</label>
+                <input id="emailReset" type="email" [(ngModel)]="userEmail" name="emailReset" required class="w-full mb-4 h-12 rounded-md bg-transparent border-2 cursor-pointer">
+
+                <button class="font-sans bg-gray-300 h-12 rounded-xl mt-5 mb-5 w-full font-semibold hover:bg-green-500 hover:text-white" type="submit">Reset Password</button>
+            </form>
+        </div>
+
+        <div class="flex flex-row mt-24 justify-center">
+            <p>Remembered your password?</p><p (click)="onForgotPassword()" class="ml-2 text-blue-800 font-bold cursor-pointer hover:underline">Log in</p>
         </div>
     </div>
 </div>

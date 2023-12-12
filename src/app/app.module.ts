@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
+import { StripeComponent } from './stripe/stripe.component';
 
 
 const routes:Routes=[
@@ -18,9 +19,9 @@ const routes:Routes=[
 @NgModule({
   declarations: [
     AppComponent,
-
     LoginComponent,
-     HomeComponent
+     HomeComponent,
+     StripeComponent
   ],
   imports: [
     BrowserModule,
