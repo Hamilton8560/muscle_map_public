@@ -52,9 +52,6 @@ export class StripeService {
     }
   }
 
-  // In StripeService
-
-// In StripeService
 
 async checkUserSubscription(): Promise<boolean> {
   const callable = this.fireFunction.httpsCallable('getUserSubscription');

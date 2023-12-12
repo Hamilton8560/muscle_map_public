@@ -8,6 +8,7 @@ import { createCheckoutSession } from "@invertase/firestore-stripe-payments";
   styleUrls: ['./stripe.component.css']
 })
 export class StripeComponent {
+  userSubscribed:boolean;
 priceId='price_1OIjzCHv8mumYCroaeFInANE'
   constructor(private stripeService:StripeService){}
 
@@ -16,8 +17,8 @@ priceId='price_1OIjzCHv8mumYCroaeFInANE'
   }
 
   validateSubscription(){
-    return this.stripeService.checkUserSubscription().then((response)=>{
-      console.log(response)
+  this.stripeService.checkUserSubscription().then((response)=>{
+     this.userSubscribed = response
     })
   }
 

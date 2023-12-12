@@ -76,6 +76,31 @@ export class UserService {
       );
   }
 
+
+  async getUserDataByEmail(email: string): Promise<UserData | null> {
+    try {
+      const userDocs = await firstValueFrom(this.afStore.collection<UserData>('users', ref => ref.where('email', '==', email)).get());
+      if (userDocs.empty) {
+        return null;  // No user found with the provided email
+      }
+      return userDocs.docs[0].data();  // Assuming email is unique and returning the first result
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      return null;
+    }
+  }
+
+
+  createUserDocument(userData: UserData) {
+    return this.afStore.collection('users').doc(userData.uid).set(userData, { merge: true });
+  }
+
+  async getCurrentUserEmail(): Promise<string | null> {
+    const user = await firstValueFrom(this.afAuth.user);
+    return user ? user.email : null;
+  }
+
+
   // Email verification
   sendVerificationMail() {
     const user = firebase.auth().currentUser;

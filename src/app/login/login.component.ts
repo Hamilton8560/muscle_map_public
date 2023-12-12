@@ -47,6 +47,7 @@ export class LoginComponent {
   
 signUp() {
   const user = this.registerForm.value;
+  console.log("firstName",user.firstName)
   if (user.password !== user.passwordConfirm) {
     console.log("Passwords do not match");
     return;
@@ -60,24 +61,20 @@ signUp() {
       this.userService.signUp(user.email, user.password)
         .then(result => {
           if (result.user) {
-            const userData = {
+            const userData: UserData = {
               firstName: user.firstName,
               lastName: user.lastName,
-              email: result.user.email
-              // Add other user data as needed
+              email: result.user.email,
+       
             };
             return this.afStore.collection('users').doc(result.user.uid).set(userData)
               .then(() => {
-                // Now log the user in
-                return this.userService.signIn(user.email, user.password);
+                // User created successfully
+                this.router.navigate(['home']);
               });
           } else {
             throw new Error('User creation failed');
           }
-        })
-        .then(() => {
-          console.log('Registration and login successful');
-          this.router.navigate(['home']); // Navigate to home after successful login
         })
         .catch(error => {
           console.error("Registration or login error", error);
@@ -100,6 +97,8 @@ signUp() {
         console.error('Login error', error);
       });
   }
+
+
   signInWithGoogle() {
     this.userService.signInWithGoogle().then(response => {
         const [firstName, lastName] = response.user.displayName.split(" ");
