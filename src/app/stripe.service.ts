@@ -57,7 +57,6 @@ async checkUserSubscription(): Promise<boolean> {
   const callable = this.fireFunction.httpsCallable('getUserSubscription');
   try {
     const result = await callable({}).toPromise();
-    console.log("result", result)
     return result.hasSubscription;
   } catch (error) {
     console.error('Error checking subscription', error);
