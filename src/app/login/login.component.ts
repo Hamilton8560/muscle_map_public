@@ -30,7 +30,13 @@ export class LoginComponent {
     password: new FormControl('', [Validators.required, Validators.minLength(5)]),
     passwordConfirm: new FormControl('')
   })
-  constructor(private afAuth: AngularFireAuth, private userService:UserService, private afStore: AngularFirestore, private router: Router) {}
+  constructor(private afAuth: AngularFireAuth, private userService:UserService, private afStore: AngularFirestore, private router: Router) {
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras.state?.['register']) {
+      this.register = navigation.extras.state['register'];
+    }
+
+  }
   
   reset(email:string){
     this.afAuth.sendPasswordResetEmail(email)

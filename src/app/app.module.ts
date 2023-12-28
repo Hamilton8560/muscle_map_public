@@ -9,10 +9,12 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { StripeComponent } from './stripe/stripe.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 
 const routes:Routes=[
-  {path:'',component:LoginComponent},
+  {path:'', component:LandingPageComponent},
+  {path:'login',component:LoginComponent},
   {path:'home',component:HomeComponent}
 ]
 
@@ -21,7 +23,8 @@ const routes:Routes=[
     AppComponent,
     LoginComponent,
      HomeComponent,
-     StripeComponent
+     StripeComponent,
+     LandingPageComponent
   ],
   imports: [
     BrowserModule,
