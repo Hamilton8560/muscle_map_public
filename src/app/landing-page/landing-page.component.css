@@ -1,0 +1,27 @@
+body {
+    background: linear-gradient(180deg, #AFEA0D 0%, #000000 72.39%);
+}
+p{
+font-family: Angkor;
+color: white; /* Sets the text color to white */
+margin: 0; /* Resets default margin */
+
+}
+
+#signUp{
+    background: linear-gradient(180deg, #AFEA0D 0%, rgba(175, 234, 13, 0.56) 100%);
+
+}
+img {
+    max-width: 100%; /* Ensures the image scales within the div */
+    height: auto;
+    display: block;
+}
+#blackCircle {
+    background-color: black; /* Sets the background color to black */
+    border-radius: 50%; /* Makes the div a circle */
+    display: inline-flex; /* Aligns the content to center */
+    justify-content: center;
+    align-items: center;
+    padding:5px; /* Adjust the padding to increase/decrease the circle size */
+}
