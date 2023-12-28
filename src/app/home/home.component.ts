@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { UserService } from '../../user.service';
 import { UserData } from '../login/user-data.model';
 import { DateService } from '../date.service';
+import { StripeService } from '../stripe.service';
 
 @Component({
   selector: 'app-home',
@@ -17,8 +18,22 @@ export class HomeComponent {
   daysOfMonth=[]
   daysOfWeek=[]
   currentDay:number
-constructor(private afAuth: AngularFireAuth, private firestore:AngularFirestore, private userService:UserService, private dateService: DateService){
+  loading=true
+
+  
+constructor(private afAuth: AngularFireAuth, private firestore:AngularFirestore, private userService:UserService, private dateService: DateService, private stripeService: StripeService){
+  
+ this.stripeService.checkUserSubscription().then(response =>{
+  if(!response){
  
+    this.stripeService.onCheckout().then(()=>{this.loading=false})
+
+  }
+  else{
+    this.loading=false
+  }
+})
+
 }
 
 
