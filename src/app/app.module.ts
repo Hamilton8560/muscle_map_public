@@ -10,12 +10,15 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { StripeComponent } from './stripe/stripe.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { WorkoutLogComponent } from './workout-log/workout-log.component';
+import { ModalComponent } from './modal/modal.component';
 
 
 const routes:Routes=[
   {path:'', component:LandingPageComponent},
   {path:'login',component:LoginComponent},
-  {path:'home',component:HomeComponent}
+  {path:'home',component:HomeComponent},
+  {path:'workout',component:WorkoutLogComponent}
 ]
 
 @NgModule({
@@ -24,7 +27,9 @@ const routes:Routes=[
     LoginComponent,
      HomeComponent,
      StripeComponent,
-     LandingPageComponent
+     LandingPageComponent,
+     WorkoutLogComponent,
+     ModalComponent
   ],
   imports: [
     BrowserModule,

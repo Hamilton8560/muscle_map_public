@@ -1,0 +1,17 @@
+.checkbox-green:checked {
+    background-color: #10B981; /* Tailwind green-500 */
+    border-color: #10B981;
+  }
+  
+  .checkbox-yellow:checked {
+    background-color: #EAB308; /* Tailwind yellow-500 */
+    border-color: #EAB308;
+  }
+  
+  .checkbox-red:checked {
+    background-color: #EF4444; /* Tailwind red-500 */
+    border-color: #EF4444;
+  }
+  th{
+    font-weight: bolder;
+  }
