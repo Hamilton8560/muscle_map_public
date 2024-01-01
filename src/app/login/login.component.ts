@@ -7,7 +7,7 @@ import firebase from 'firebase/compat/app';
 import { UserService } from 'src/user.service';
 import { FormControl, FormGroup, Validators  } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { UserData  } from './user-data.model'
+import { UserData  } from '../models/user-data.model'
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

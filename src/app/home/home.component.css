@@ -1,0 +1,17 @@
+#page-container {
+    min-height: 50vh; /* Full viewport height */
+    width: 100%; /* Full viewport width */
+  }
+
+#title{
+    /* font-family:'BeautyMountain', serif; */
+    color: white;
+}
+#workout-container{
+    background-color: black;
+    color: white;
+    
+}
+#workout-container:hover{
+    background-color: gray;
+}

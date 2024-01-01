@@ -7,7 +7,7 @@ import firebase from 'firebase/compat/app';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { UserData } from './app/login/user-data.model';
+import { UserData } from './app/models/user-data.model';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({
@@ -18,7 +18,6 @@ export class UserService {
   constructor(private afAuth: AngularFireAuth, private afStore:AngularFirestore) { }
 
   signUp(email: string, password: string) {
-  
     return this.afAuth.createUserWithEmailAndPassword(email, password);
   }
 
@@ -99,6 +98,7 @@ export class UserService {
     const user = await firstValueFrom(this.afAuth.user);
     return user ? user.email : null;
   }
+
 
 
   // Email verification
