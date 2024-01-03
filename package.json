@@ -21,8 +21,12 @@
     "@angular/router": "^16.2.0",
     "@invertase/firestore-stripe-payments": "^0.0.7",
     "firebase": "^10.7.1",
+    "flowbite": "^2.2.1",
+    "flowbite-datepicker": "^1.2.6",
+    "primeng": "^16.9.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "tw-elements": "^1.1.0",
     "zone.js": "~0.13.0"
   },
   "devDependencies": {
