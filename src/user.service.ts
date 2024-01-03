@@ -17,6 +17,22 @@ export class UserService {
 
   constructor(private afAuth: AngularFireAuth, private afStore:AngularFirestore) { }
 
+  async updateBirthDay(email: string, dateOfBirth: string): Promise<void> {
+    const userDoc = this.afStore.collection<UserData>('users', ref => ref.where('email', '==', email));
+    const userSnapshot = await firstValueFrom(userDoc.get());
+    if (userSnapshot.empty) {
+      console.error('User not found');
+      return;
+    }
+  
+    const userId = userSnapshot.docs[0].id;
+    const birthday = new Date(dateOfBirth);
+    const age = new Date().getFullYear() - birthday.getFullYear();
+    
+    return this.afStore.collection('users').doc(userId).update({ dateOfBirth });
+  }
+  
+
   signUp(email: string, password: string) {
     return this.afAuth.createUserWithEmailAndPassword(email, password);
   }

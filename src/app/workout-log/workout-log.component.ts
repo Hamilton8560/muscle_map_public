@@ -5,7 +5,7 @@ import { log } from '../models/workout-log.model';
 import { ExerciseService } from '../exercise.service';
 import { PersonalBest } from '../models/user-data.model';
 import { ExerciseInfo } from '../models/exercise-info.model';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-workout-log',
@@ -16,14 +16,14 @@ export class WorkoutLogComponent {
   workoutPlan: any
   day: number
   exercises: any[] = [];
-  selectedValues: any[] = [];
+  selectedValues: any[] | null= [];
   isModalOpen = false;
   loggedExercises: log[] = [];
   dateOfWorkout
   selectedCheckbox: Record<number, string> = {};
- 
+ loading = true;
   
-  constructor(private workoutService: WorkoutService, private exerciseService: ExerciseService) {}
+  constructor(private workoutService: WorkoutService, private exerciseService: ExerciseService, private router: Router) {}
   
   async ngOnInit() {
     const nextWorkoutDay = await this.workoutService.getNextWorkoutDay();
@@ -58,7 +58,7 @@ export class WorkoutLogComponent {
       }
     }
   
-    console.log(this.selectedValues);
+    this.loading= false;
   }
 
   openModal() {
@@ -152,7 +152,9 @@ onSubmit() {
   });
 
   this.updatePersonalBests(exerciseInfoArray, this.dateOfWorkout).then(response=>console.log(response));
-  this.workoutService.logWorkoutByUserEmail(exerciseInfoArray, this.dateOfWorkout, this.day)
+  this.workoutService.logWorkoutByUserEmail(exerciseInfoArray, this.dateOfWorkout, this.day).then(()=>
+  this.router.navigate(['home'])
+  )
 }
 
 async updatePersonalBests(exerciseInfoArray, date) {

@@ -22,7 +22,7 @@ export class StripeService {
       .add({
         price: priceId,
         success_url: 'http://localhost:4200/home',
-        cancel_url: window.location.origin,
+        cancel_url: 'http://localhost:4200/membership',
       });
 
     return new Promise((resolve, reject) => {
@@ -46,6 +46,14 @@ export class StripeService {
   async onCheckout() {
     try {
       await this.createCheckoutSession('price_1OIh5zHv8mumYCropRMdQHIM');
+    } catch (error) {
+      console.error('Checkout error', error);
+      alert(error);
+    }
+  }
+  async onCheckoutAnnual(){
+    try {
+      await this.createCheckoutSession('price_1OU6yaHv8mumYCrosrjid90G');
     } catch (error) {
       console.error('Checkout error', error);
       alert(error);

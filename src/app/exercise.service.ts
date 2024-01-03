@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { firstValueFrom } from 'rxjs';
+import { Observable, firstValueFrom, map } from 'rxjs';
 import { AngularFireFunctions } from '@angular/fire/compat/functions';
 import { UserData } from './models/user-data.model';
 import { UserService } from 'src/user.service';
+import { Exercise } from './models/exercise.model';
 
 @Injectable({
   providedIn: 'root'
@@ -88,27 +89,16 @@ catch(error){
   console.error('error fetching personal bests: ', error)
   return null;
 }
+
+
+
 }
 
-//   async getWorkoutPlanByUserEmail(): Promise<UserData | null> {
-//     const email = await this.userService.getCurrentUserEmail()
-//     try {
-//       const userDocs = await firstValueFrom(this.afStore.collection<UserData>('users', ref => ref.where('email', '==', email)).get());
-//       if (userDocs.empty) {
-//         return null;  // No user found with the provided email
-//       }
-//       const userData = userDocs.docs[0].data();
-//       // Parse the workoutInfo if it exists
-//       if (userData.workoutInfo && typeof userData.workoutInfo === 'string') {
-//         userData.workoutInfo = JSON.parse(userData.workoutInfo);
-//       }
-//       return userData;
-//     } catch (error) {
-//       console.error('Error fetching user data:', error);
-//       return null;
-//     }
-//   }
-// }
+async getAllExerciseNames(): Promise<Observable<string[]>> {
+  return this.afStore.collection<Exercise>('exercises').valueChanges().pipe(
+    map(exercises => exercises.map(exercise => exercise.exercise))
+  );
+}
 
 }
 
