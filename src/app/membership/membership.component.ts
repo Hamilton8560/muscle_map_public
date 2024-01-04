@@ -109,7 +109,7 @@ async getExerciseArray() {
 }
 
 addWorkoutInfo(){
-    this.workoutForm.value.goal=this.workoutInfo.goals
+  this.workoutForm.value.goal=this.workoutInfo.goals
   this.workoutForm.value.age = this.getAge(this.workoutForm.value.dateOfBirth)
   const userInfo = this.workoutForm.value
 console.log('userInfo ', userInfo)
@@ -120,20 +120,10 @@ this.openAIService.createWorkout(userInfo,this.availableExercises).subscribe(
   },
   error => console.log(error)
 )
+this.membership=true
 }
 
-// addWorkoutInfo(){
-//   this.workoutForm.value.goal=this.workoutInfo.goals
-//   this.workoutForm.value.age = this.getAge(this.workoutForm.value.dateOfBirth)
-//   const userInfo = this.workoutForm.value
-// console.log('userInfo ', userInfo)
-//   this.openAIService.createWorkout(userInfo).then(response => {
-//     console.log("openai response ", response);
-//   }).catch(error => {
-//     console.error("Error in createWorkout response: ", error);
-//   });
-//   this.membership=true
-// }
+
 
 async getDateOfBirth(event): Promise<void> {
   const dateOfBirth = event.target.value;
