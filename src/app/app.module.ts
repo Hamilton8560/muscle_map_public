@@ -19,6 +19,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
+import { HttpClientModule } from '@angular/common/http';
 // canActivate: [AuthGuard, SubscriptionGuard]
 const routes:Routes=[
   {path:'', component:LandingPageComponent},
@@ -47,7 +48,7 @@ const routes:Routes=[
     AngularFireModule.initializeApp(env.firebase),
     FormsModule,ReactiveFormsModule,
     CalendarModule,BrowserAnimationsModule,
-    TableModule,InputTextModule
+    TableModule,InputTextModule,HttpClientModule
 
   ],
   providers: [ SubscriptionGuard, AuthGuard],

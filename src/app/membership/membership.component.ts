@@ -5,6 +5,7 @@ import { WorkoutInfo } from '../models/Workout-Info.model';
 import { ExerciseService } from '../exercise.service';
 import { UserService } from 'src/user.service';
 import { StripeService } from '../stripe.service';
+import { OpenAIService } from '../open-ai.service';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class MembershipComponent {
     maxSquat:new FormControl(''),
     maxBench: new FormControl(''),
     maxRow: new FormControl(''),
+    workoutInfo: new FormControl(''),
     trainingDays:new FormControl('')
   })
   weightType='Pounds'
@@ -57,8 +59,21 @@ date
 membership=false
 loading = false
 
-constructor(private router: Router, private exerciseService:ExerciseService, private userService: UserService, private stripeService:StripeService){}
 
+constructor(private router: Router, private exerciseService:ExerciseService, private userService: UserService, private stripeService:StripeService,
+  private openAIService: OpenAIService
+  ){}
+
+
+  ngOnInit(){
+    this.openAIService.getAllExerciseNames().subscribe(
+      response=>{
+        this.availableExercises = response;
+        console.log('test',this.availableExercises)
+      }
+    )
+    
+    }
 
 goBack(){
   this.router.
@@ -92,12 +107,33 @@ async getExerciseArray() {
     this.availableExercises = exercises;
   });
 }
+
 addWorkoutInfo(){
-  this.workoutForm.value.goal=this.workoutInfo.goals
+    this.workoutForm.value.goal=this.workoutInfo.goals
+  this.workoutForm.value.age = this.getAge(this.workoutForm.value.dateOfBirth)
   const userInfo = this.workoutForm.value
-  console.log(userInfo)
-  this.membership = true
+console.log('userInfo ', userInfo)
+
+this.openAIService.createWorkout(userInfo,this.availableExercises).subscribe(
+  response=>{
+    console.log(response)
+  },
+  error => console.log(error)
+)
 }
+
+// addWorkoutInfo(){
+//   this.workoutForm.value.goal=this.workoutInfo.goals
+//   this.workoutForm.value.age = this.getAge(this.workoutForm.value.dateOfBirth)
+//   const userInfo = this.workoutForm.value
+// console.log('userInfo ', userInfo)
+//   this.openAIService.createWorkout(userInfo).then(response => {
+//     console.log("openai response ", response);
+//   }).catch(error => {
+//     console.error("Error in createWorkout response: ", error);
+//   });
+//   this.membership=true
+// }
 
 async getDateOfBirth(event): Promise<void> {
   const dateOfBirth = event.target.value;
@@ -116,7 +152,7 @@ async getDateOfBirth(event): Promise<void> {
    } else {
       console.error('Invalid date of birth or user email not found');
     }
-    console.log(this.workoutForm.value)
+    
   }
 
 weightChange(event){

@@ -106,6 +106,15 @@
         <input type="number" id="frequency" class="ml-2 w-16" formControlName="trainingDays" placeholder="3">
     </div>
    
+    <div>
+        <label for="message" class="mt-6 block mb-2  font-medium text-black dark:text-black">Additional Information</label>
+        <textarea id="message"
+        formControlName="workoutInfo"
+        rows="4" class="block p-2.5 w-full text-sm text-black bg-gradient-to-b from-[#AFEA0D] to-[rgba(175,234,13,0.56)] rounded-lg " placeholder="Write any considerations here..."></textarea>
+    </div>
+    
+
+
           <button class="ml-32 sm:ml-48 md:ml-60 mt-12 px-12 py-6 rounded-full hover:opacity-70" id="goalButtons" type="submit">Submit</button>
       
 
@@ -114,14 +123,6 @@
   
 
 <div *ngIf="membership && !loading">
-
-    <!-- <div class="flex flex-col mt-12 w-full items-center">
-    <button *ngFor="let goal of objectKeys(goals)" 
-            [ngStyle]="{'background-color': goals[goal] ? 'black' : '', 'color': goals[goal] ? 'white' : 'black'}"
-            (click)="toggleGoal(goal)" id="goalButtons" class="w-11/12 sm:w-96 rounded-md p-4 m-2 font-bold hover:opacity-80">
-      {{ goal | titlecase }}
-    </button>
-</div> -->
 <div class="flex flex-col mt-64 w-full items-center ">
         <button id="goalButtons" class="w-11/12 sm:w-96 rounded-md p-4 m-2 font-bold hover:opacity-80" (click)="subscriptionPlan('monthly')">
             Monthly Membership <span>$39.98</span>
