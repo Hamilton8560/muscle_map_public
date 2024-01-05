@@ -1,6 +1,6 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { WorkoutInfo } from '../models/Workout-Info.model';
 import { ExerciseService } from '../exercise.service';
 import { UserService } from 'src/user.service';
@@ -17,15 +17,15 @@ export class MembershipComponent {
     dateOfBirth: new FormControl('', [Validators.required]),
     weightUnit: new FormControl('LBS'),
     age:new FormControl(''),
-    gender:new FormControl(''),
-    weight:new FormControl(''),
+    gender:new FormControl('', [Validators.required]),
+    weight: new FormControl('', [Validators.required, Validators.minLength(1), this.maxDigitsValidator(3)]),
     goal: new FormControl([]),
-    experience: new FormControl(''),
-    maxDeadlift: new FormControl(''),
-    maxSquat:new FormControl(''),
-    maxBench: new FormControl(''),
-    maxRow: new FormControl(''),
-    trainingDays:new FormControl('')
+    experience: new FormControl('', [Validators.required]),
+    maxDeadlift: new FormControl('', [Validators.required, Validators.minLength(1), this.maxDigitsValidator(3)]),
+    maxSquat:new FormControl('', [Validators.required, Validators.minLength(1), this.maxDigitsValidator(3)]),
+    maxBench: new FormControl('', [Validators.required, Validators.minLength(1), this.maxDigitsValidator(3)]),
+    maxRow: new FormControl('', [Validators.required, Validators.minLength(1), this.maxDigitsValidator(3)]),
+    trainingDays:new FormControl('', [Validators.required, this.maxDigitsValidator(1)]),
   })
   weightType='Pounds'
 date
@@ -58,7 +58,6 @@ membership=false
 loading = false
 
 constructor(private router: Router, private exerciseService:ExerciseService, private userService: UserService, private stripeService:StripeService){}
-
 
 goBack(){
   this.router.
@@ -155,10 +154,66 @@ subscriptionPlan(membership){
   }
 
 }
+
+maxDigitsValidator(maxLength: number): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (control.value === null || control.value === undefined) {
+      return null;
+    }
+    const stringValue = control.value.toString();
+    return stringValue.length > maxLength ? { maxDigits: true } : null;
+  };
 }
 
+get dateOfBirthField() {
+  return this.workoutForm.get('dateOfBirth');
+} 
 
+get weightUnitField() {
+  return this.workoutForm.get('weightUnit');
+}
 
+get ageField() {
+  return this.workoutForm.get('age');
+}
+
+get genderField() {
+  return this.workoutForm.get('gender');
+}
+
+get weightField() {
+  return this.workoutForm.get('weight');
+}
+
+get goalField() {
+  return this.workoutForm.get('goal');
+}
+
+get experienceField() {
+  return this.workoutForm.get('experience');
+}
+
+get maxDeadliftField() {
+  return this.workoutForm.get('maxDeadlift');
+}
+
+get maxSquatField() {
+  return this.workoutForm.get('maxSquat');
+}
+
+get maxBenchField() {
+  return this.workoutForm.get('maxBench');
+}
+
+get maxRowField() {
+  return this.workoutForm.get('maxRow');
+}
+
+get trainingDaysField() {
+  return this.workoutForm.get('trainingDays');
+}
+
+}
 // // export interface WorkoutInfo {
 //   age: number;
 //   gender: string;
