@@ -21,7 +21,7 @@ export class MembershipComponent {
     gender:new FormControl('', [Validators.required]),
     weight: new FormControl('', [Validators.required, Validators.minLength(1), this.maxDigitsValidator(3)]),
     goal: new FormControl([]),
-
+    workoutInfo: new FormControl(''),
     experience: new FormControl('', [Validators.required]),
     maxDeadlift: new FormControl('', [Validators.required, Validators.minLength(1), this.maxDigitsValidator(3)]),
     maxSquat:new FormControl('', [Validators.required, Validators.minLength(1), this.maxDigitsValidator(3)]),
