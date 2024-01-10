@@ -39,7 +39,7 @@ export class WorkoutService {
       if (userDocs.empty) {
         return 1; // Default to day 1 if no user found
       }
-  
+      
       const userData = userDocs.docs[0].data();
       let workoutInfo;
       if (typeof userData.workoutInfo === 'string') {
@@ -82,7 +82,8 @@ export class WorkoutService {
       const workoutLog = {
         date: dateOfWorkout,
         exercises: exerciseInfoArray,
-        dayNumber // Include the workout day number
+        dayNumber, // Include the workout day number
+      
       };
   
       // Add the workout log to the user's workouts sub-collection
@@ -94,6 +95,46 @@ export class WorkoutService {
       return false;
     }
   }
+
+  async addWorkoutToUser(workoutInfo) {
+    const currentUser = await this.afAuth.currentUser;
+    if (!currentUser) {
+      throw new Error('User not authenticated');
+    }
+    const userId = currentUser.uid;
+    // Extract the title from the workout plan
+    const title = workoutInfo.title;
+    // Add the current date and time to workoutInfo
+    workoutInfo.createdAt = new Date();
   
+    // Update the workoutInfo in the user's document
+    await this.afStore.collection('users').doc(userId).set({ workoutInfo }, { merge: true });
+  
+    // Add the workoutInfo with the timestamp to the programs sub-collection
+    await this.afStore.collection(`users/${userId}/programs`).doc(title).set(workoutInfo);
+  }
+
+  async getLastProgram() {
+    const currentUser = await this.afAuth.currentUser;
+    const userId = currentUser.uid;
+  
+    const programsRef = this.afStore.collection(`users/${userId}/programs`, ref => 
+      ref.orderBy('createdAt', 'desc').limit(1)
+    );
+    const querySnapshot = await programsRef.get().toPromise();
+  
+    if (!querySnapshot.empty) {
+        return querySnapshot.docs[0].data();
+    } else {
+        return null; // or handle the case when there are no programs
+    }
+  }
+  async updateWorkoutInfoInFirebase(workoutInfo){
+    const currentUser = await this.afAuth.currentUser;
+    const userId = currentUser.uid;
+    await this.afStore.collection('users').doc(userId).set({ workoutInfo }, { merge: true });
+  }
+  
+
   
 }

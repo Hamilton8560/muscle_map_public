@@ -5,4 +5,6 @@ export interface log {
     weight?:number[] | string[];
     color?:string[];
     notes?:string;
+    programId?:string;
 }
+

@@ -17,21 +17,14 @@ export class UserService {
 
   constructor(private afAuth: AngularFireAuth, private afStore:AngularFirestore) { }
 
-  async updateBirthDay(email: string, dateOfBirth: string): Promise<void> {
-    const userDoc = this.afStore.collection<UserData>('users', ref => ref.where('email', '==', email));
-    const userSnapshot = await firstValueFrom(userDoc.get());
-    if (userSnapshot.empty) {
-      console.error('User not found');
-      return;
-    }
-  
-    const userId = userSnapshot.docs[0].id;
+  async updateBirthDay(dateOfBirth: string): Promise<void> {
+    const currentUser = await this.afAuth.currentUser;
+    const userId = currentUser.uid;
     const birthday = new Date(dateOfBirth);
     const age = new Date().getFullYear() - birthday.getFullYear();
     
     return this.afStore.collection('users').doc(userId).update({ dateOfBirth });
   }
-  
 
   signUp(email: string, password: string) {
     return this.afAuth.createUserWithEmailAndPassword(email, password);
@@ -107,8 +100,10 @@ export class UserService {
 
 
   createUserDocument(userData: UserData) {
+    // Ensure the UID from Firebase Auth is used as the document ID
     return this.afStore.collection('users').doc(userData.uid).set(userData, { merge: true });
   }
+  
 
   async getCurrentUserEmail(): Promise<string | null> {
     const user = await firstValueFrom(this.afAuth.user);

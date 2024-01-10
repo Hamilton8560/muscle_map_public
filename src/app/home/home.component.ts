@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef  } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { UserService } from '../../user.service';
@@ -28,7 +28,7 @@ export class HomeComponent {
   nextWorkoutday
   
 constructor(private afAuth: AngularFireAuth, private firestore:AngularFirestore, private userService:UserService, private dateService: DateService, private stripeService: StripeService,
-  private workoutService: WorkoutService, private router:Router
+  private workoutService: WorkoutService, private router:Router, private cdRef: ChangeDetectorRef
   ){
     
     this.workoutService.getWorkoutPlanByUserEmail().then(userData => {
@@ -38,9 +38,8 @@ constructor(private afAuth: AngularFireAuth, private firestore:AngularFirestore,
     });
  this.stripeService.checkUserSubscription().then(response =>{
   if(!response){
- 
-    // this.stripeService.onCheckout().then(() => this.loading=false )
-    this.loading=false
+     this.stripeService.onCheckout().then(() => this.loading=false )
+
   }
   else{
     this.loading=false
@@ -51,6 +50,8 @@ constructor(private afAuth: AngularFireAuth, private firestore:AngularFirestore,
 getNextDayWorkout() {
   const nextDay = this.day + 1;
   const nextDayKey = 'day' + nextDay;
+
+  
 
   if (this.workoutPlan.workoutLog[nextDayKey]) {
     this.nextWorkoutday = nextDay
@@ -75,6 +76,7 @@ if (this.userEmail) {
   this.currentUserData = await this.userService.getUserDataByEmail(this.userEmail);
 }
 this.currentDay=this.dateService.findCurrentDay(this.weekDates)
+this.cdRef.detectChanges()
 }
 
 navigateToWorkout(){

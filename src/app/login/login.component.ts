@@ -52,42 +52,43 @@ export class LoginComponent {
 
   
 signUp() {
-  const user = this.registerForm.value;
-  console.log("firstName",user.firstName)
-  if (user.password !== user.passwordConfirm) {
-    console.log("Passwords do not match");
+  const userFormData = this.registerForm.value;
+  if (userFormData.password !== userFormData.passwordConfirm) {
+    console.error("Passwords do not match");
     return;
   }
 
-  this.userService.emailExists(user.email).subscribe(exists => {
+  this.userService.emailExists(userFormData.email).subscribe(exists => {
     if (exists) {
-      console.log("Email already exists");
+      console.error("Email already exists");
       return;
     } else {
-      this.userService.signUp(user.email, user.password)
+      this.userService.signUp(userFormData.email, userFormData.password)
         .then(result => {
           if (result.user) {
+            // Create user document in Firestore using the UID
             const userData: UserData = {
-              firstName: user.firstName,
-              lastName: user.lastName,
+              firstName: userFormData.firstName,
+              lastName: userFormData.lastName,
               email: result.user.email,
-       
+              
             };
-            return this.afStore.collection('users').doc(result.user.uid).set(userData)
-              .then(() => {
-                // User created successfully
-                this.router.navigate(['home']);
-              });
+            return this.afStore.collection('users').doc(result.user.uid).set(userData);
           } else {
             throw new Error('User creation failed');
           }
         })
+        .then(() => {
+          console.log('User registered and document created');
+          this.router.navigate(['home']);
+        })
         .catch(error => {
-          console.error("Registration or login error", error);
+          console.error("Registration or Firestore document creation error", error);
         });
     }
   });
 }
+
 
 
   login(): void {
@@ -115,7 +116,7 @@ signUp() {
         }
         this.userService.emailExists(userData.email).subscribe(exists => {
           if (!exists) {
-            this.afStore.collection('users').doc().set(userData).then(()=>
+            this.afStore.collection('users').doc(response.user.uid).set(userData).then(()=>
             {
               console.log("google database successful")
             })

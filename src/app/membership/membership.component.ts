@@ -6,6 +6,7 @@ import { ExerciseService } from '../exercise.service';
 import { UserService } from 'src/user.service';
 import { StripeService } from '../stripe.service';
 import { OpenAIService } from '../open-ai.service';
+import { WorkoutService } from '../workout.service';
 
 
 @Component({
@@ -52,7 +53,7 @@ date
       deadlift: 0,
       squat: 0,
       benchPress: 0,
-      bentoverRow: 0
+      bentoverRow: 0,
     }
   };
 
@@ -62,7 +63,7 @@ loading = false
 
 
 constructor(private router: Router, private exerciseService:ExerciseService, private userService: UserService, private stripeService:StripeService,
-  private openAIService: OpenAIService
+  private openAIService: OpenAIService, private workoutService:WorkoutService
   ){}
 
 
@@ -110,17 +111,23 @@ async getExerciseArray() {
 }
 
 addWorkoutInfo(){
+  this.loading=true
   this.workoutForm.value.goal=this.workoutInfo.goals
   this.workoutForm.value.age = this.getAge(this.workoutForm.value.dateOfBirth)
   const userInfo = this.workoutForm.value
 console.log('userInfo ', userInfo)
 
-this.openAIService.createWorkout(userInfo,this.availableExercises).subscribe(
-  response=>{
-    console.log(response)
+this.openAIService.createWorkout(userInfo, this.availableExercises).subscribe(
+  response => {
+    
+    const workoutData = typeof response === 'string' ? JSON.parse(response) : response;
+    this.workoutService.addWorkoutToUser(workoutData);
+    this.loading=false
   },
-  error => console.log(error)
-)
+  error =>{ console.log(error)
+    this.loading=false }
+);
+
 this.membership=true
 }
 
@@ -132,7 +139,7 @@ async getDateOfBirth(event): Promise<void> {
   this.workoutForm.value.age = this.getAge(dateOfBirth)
   if(this.workoutForm.value.age){
     setTimeout(() => {
-    this.userService.updateBirthDay(userEmail, dateOfBirth)
+    this.userService.updateBirthDay( dateOfBirth)
         .then(() => {
           console.log('Date of birth and age updated successfully');
         })
