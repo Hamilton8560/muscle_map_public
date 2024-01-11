@@ -7,6 +7,10 @@
     font-family:'BeautyMountain', serif; 
     color: white;
 }
+#workoutPlanTitle{
+    font-family:'BeautyMountain', serif; 
+}
+
 #workout-container{
     background-color: black;
     color: white;
@@ -14,4 +18,10 @@
 }
 #workout-container:hover{
     background-color: gray;
+}
+
+#next-workout-container{
+    background: linear-gradient(180deg, #AFEA0D 0%, rgba(175, 234, 13, 0.56) 100%);
+    
+    
 }
